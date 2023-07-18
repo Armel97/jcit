@@ -5,7 +5,7 @@
   <div class="container">
     <div class="page-caption">
       <h2>Get In Touch</h2>
-      <p><a href="#" title="Home">Home</a> <i class="ti-angle-double-right"></i> Contact</p>
+      <p><a href="#" title="Home">Home</a> <i class="fa fa-angle-double-right" aria-hidden="true"></i> Contact</p>
     </div>
   </div>
 </div>
@@ -15,26 +15,47 @@
 <section class="padd-top-80 padd-bot-70">
   <div class="container">
     <div class="col-md-6 col-sm-6">
+      <h4 class="mrg-0 alert alert-success" v-if="success">  {{ success }} </h4>
+
       <div class="row">
-		<form class="mrg-bot-40">
+		<form class="mrg-bot-40" @submit.prevent="sendMessage">
 			<div class="col-md-6 col-sm-6">
 			  <label>Name:</label>
-			  <input type="text" class="form-control" placeholder="Name" />
+			  <input type="text" class="form-control" placeholder="Name" v-model="contactForm.name"/>
+        <span
+                        v-if="errors.name"
+                        class="text-danger"
+                        v-text="errors.name[0]"
+                        >
+                        </span>
 			</div>
 			<div class="col-md-6 col-sm-6">
 			  <label>Email:</label>
-			  <input type="email" class="form-control" placeholder="Email" />
+			  <input type="email" class="form-control" placeholder="Email" v-model="contactForm.email"/>
+        <span
+                        v-if="errors.email"
+                        class="text-danger"
+                        v-text="errors.email[0]"
+                        >
+                        </span>
 			</div>
 			<div class="col-md-12 col-sm-12">
 			  <label>Subject:</label>
-			  <input type="text" class="form-control" placeholder="Subject" />
+			  <input type="text" class="form-control" placeholder="Subject" v-model="contactForm.subject"/>
+  
 			</div>
 			<div class="col-md-12 col-sm-12">
 			  <label>Message:</label>
-			  <textarea class="form-control height-120" placeholder="Message"></textarea>
+			  <textarea class="form-control height-120" placeholder="Message" v-model="contactForm.contactMessage"></textarea>
+        <span
+                        v-if="errors.contactMessage"
+                        class="text-danger"
+                        v-text="errors.contactMessage[0]"
+                        >
+                        </span>
 			</div>
-			<div class="col-md-12 col-sm-12">
-			  <button class="btn theme-btn" name="submit">Send Message</button>
+			<div class="col-md-12 col-sm-12 mt-5">
+			  <button class="btn theme-btn" type="submit">Send Message</button>
 			</div>
 		</form>
 	  </div>
@@ -51,22 +72,69 @@
     <div class="row">
       <div class="col-md-8 col-md-offset-2">
         <div class="heading light">
-          <h2>Subscribe Our Newsletter!</h2>
+          <h2>JCIT Consulting !</h2>
           <p>Lorem Ipsum is simply dummy text printing and type setting industry Lorem Ipsum been industry standard dummy text ever since when unknown printer took a galley.</p>
         </div>
       </div>
     </div>
-    <div class="row">
-      <div class="col-md-6 col-sm-6 col-md-offset-3 col-sm-offset-3">
-        <div class="newsletter-box text-center">
-          <div class="input-group"> <span class="input-group-addon"><span class="ti-email theme-cl"></span></span>
-            <input type="text" class="form-control" placeholder="Enter your Email...">
-          </div>
-          <button type="button" class="btn theme-btn btn-radius btn-m">Subscribe</button>
-        </div>
-      </div>
-    </div>
+   
   </div>
 </section>
 
 </template>
+
+
+
+<script>
+import { onMounted, reactive } from 'vue'
+import useJob from './../../services/jobServices'
+import { ref } from 'vue'
+
+export default {
+  components: {
+  },
+  
+  setup() {
+    const {
+        handleContactForm,
+        success,
+        errors,
+    } = useJob()
+
+    const job = ref('');
+    const contactForm = reactive({
+      name: '',
+      email: '',
+      subject: '',
+      contactMessage: '',
+      
+    })
+  
+    const sendMessage = async () =>{
+        await handleContactForm({ ...contactForm })
+        if (success.value) {
+            contactForm.name = ''
+            contactForm.email = ''
+            contactForm.subject = ''
+            contactForm.contactMessage = ''
+        }
+        
+
+    }
+    
+    onMounted(async () => {
+      
+    })
+
+    return {
+        contactForm,
+        sendMessage,
+        job,
+        success,
+        errors,
+    }
+  },
+ 
+}
+
+</script>

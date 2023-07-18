@@ -47,7 +47,7 @@
                                         <p>155 Jobs</p>
                                     </div>
                                     <div class="utf_apply_job_btn_item"> <a href="##" data-toggle="modal"
-                                            data-target="#apply-job" class="btn-job theme-btn job-apply">Apply Now</a>
+                                            data-target="#apply-job" class="btn-job theme-btn job-apply" @click="selectJob('Data Science & Analitycs')">Apply Now</a>
                                     </div>
 
                                 </div>
@@ -64,7 +64,7 @@
                                     </div>
                                     <div class="utf_apply_job_btn_item"> <a href="##" data-toggle="modal"
                                             data-target="#apply-job"
-                                            class="btn-job job-browse-btn btn-radius br-light">Apply Now</a> </div>
+                                            class="btn-job job-browse-btn btn-radius br-light" @click="selectJob('Data Science & Analitycs 2')">Apply Now</a> </div>
 
                                 </div>
                             </div>
@@ -80,7 +80,7 @@
                                     </div>
                                     <div class="utf_apply_job_btn_item"> <a href="##" data-toggle="modal"
                                             data-target="#apply-job"
-                                            class="btn-job job-browse-btn btn-radius br-light">Apply Now</a> </div>
+                                            class="btn-job job-browse-btn btn-radius br-light" @click="selectJob('Data Science & Analitycs 3')">Apply Now</a> </div>
 
                                 </div>
                             </div>
@@ -96,7 +96,7 @@
                                     </div>
                                     <div class="utf_apply_job_btn_item"> <a href="##" data-toggle="modal"
                                             data-target="#apply-job"
-                                            class="btn-job job-browse-btn btn-radius br-light">Apply Now</a> </div>
+                                            class="btn-job job-browse-btn btn-radius br-light" @click="selectJob('Data Science & Analitycs 4')">Apply Now</a> </div>
 
                                 </div>
                             </div>
@@ -119,7 +119,7 @@
                                     <p class="text-muted">3765 C Street, Worcester</p>
                                 </div>
                                 <div class="utf_apply_job_btn_item"> <a href="##" data-toggle="modal"
-                                        data-target="#apply-job" class="btn-job job-browse-btn btn-radius br-light">Apply
+                                        data-target="#apply-job" class="btn-job job-browse-btn btn-radius br-light" @click="selectJob('Data Science & Analitycs 5')">Apply
                                         Now</a> </div>
                             </div>
                         </div>
@@ -143,7 +143,7 @@
                                     <p class="text-muted">3765 C Street, Worcester</p>
                                 </div>
                                 <div class="utf_apply_job_btn_item"> <a href="#" data-toggle="modal"
-                                        data-target="#apply-job" class="btn-job theme-btn job-apply">Apply Now</a> </div>
+                                        data-target="#apply-job" class="btn-job theme-btn job-apply" @click="selectJob('Data Science & Analitycs 6')">Apply Now</a> </div>
                             </div>
                         </div>
                         <!-- Single Job -->
@@ -157,8 +157,8 @@
                                     <h5><a href="#">Custom Php Developer</a></h5>
                                     <p class="text-muted">3765 C Street, Worcester</p>
                                 </div>
-                                <div class="utf_apply_job_btn_item"> <a href="#"
-                                        class="btn job-browse-btn btn-radius br-light">Apply Now</a> </div>
+                                <div class="utf_apply_job_btn_item"> <a href="#" data-toggle="modal"
+                                        data-target="#apply-job" class="btn-job theme-btn job-apply" @click="selectJob('Data Science & Analitycs 7')">Apply Now</a> </div>
                             </div>
                         </div>
 
@@ -174,8 +174,8 @@
                                     <h5><a href="#">Custom Php Developer</a></h5>
                                     <p class="text-muted">3765 C Street, Worcester</p>
                                 </div>
-                                <div class="utf_apply_job_btn_item"> <a href="#"
-                                        class="btn job-browse-btn btn-radius br-light">Apply Now</a> </div>
+                                <div class="utf_apply_job_btn_item"> <a href="#" data-toggle="modal"
+                                        data-target="#apply-job" class="btn-job theme-btn job-apply" @click="selectJob('Data Science & Analitycs 8')">Apply Now</a> </div>
                             </div>
                         </div>
                     </div>
@@ -201,29 +201,56 @@
                 <div class="modal-content" id="myModalLabel2">
                     <div class="modal-body">
                         <div class="text-center mrg-bot-20">
-                            <h4 class="mrg-0">Front End Designer</h4>
+                            <h4 class="mrg-0 alert alert-success" v-if="success">  {{ success }} </h4>
+                            <h4 class="mrg-0">  {{ job }} </h4>
                             <span>2708 Scenic Way, Sutter</span>
                         </div>
                         <form @submit.prevent="applyJob">
-                            <div class="col-md-6 col-sm-6">
+                            <div class="col-md-12 col-sm-12">
                                 <label>Name</label>
                                 <input type="text" class="form-control" placeholder="Name" v-model="jobData.name">
+                                <span
+                                v-if="errors.name"
+                                class="text-danger"
+                                v-text="errors.name[0]"
+                                >
+                                </span>
                             </div>
                             <div class="col-md-6 col-sm-6">
                                 <label>Email</label>
                                 <input type="email" class="form-control" placeholder="Email" v-model="jobData.email">
+                                <span
+                                v-if="errors.email"
+                                class="text-danger"
+                                v-text="errors.email[0]"
+                                >
+                                </span>
                             </div>
                             <div class="col-md-6 col-sm-6">
                                 <label>Phone</label>
-                                <input type="text" class="form-control" placeholder="Phone" v-model="jobData.phone">
+                                <input type="tel" class="form-control" placeholder="Phone" v-model="jobData.phone">
+                                <span
+                                v-if="errors.phone"
+                                class="text-danger"
+                                v-text="errors.phone[0]"
+                                >
+                                </span>
                             </div>
                             <div class="clearfix"></div>
                             <div class="col-md-12">
                                 <label>Experience </label>
                                 <textarea class="form-control height-120" placeholder="Experience" v-model="jobData.experience"> </textarea>
+                                <span
+                                v-if="errors.experience"
+                                class="text-danger"
+                                v-text="errors.experience[0]"
+                                >
+                                </span>
                             </div>
-                            <div class="col-md-12 text-center">
-                                <button type="submit" class="btn theme-btn btn-m full-width">Save</button>
+                            <div class="col-md-12 text-right">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+                                <button type="submit" class="btn theme-btn btn-sm btn-radius" style="margin-left: 10px;">Save</button>
                             </div>
                             <div class="clearfix"></div>
                         </form>
@@ -236,7 +263,7 @@
     </section>
 
     <!-- ================= Training start ========================= -->
-    <section class="utf_job_category_area">
+    <section class="utf_job_category_area" style="margin-top: -250px;">
         <div class="container">
             <div class="row">
                 <div class="col-md-8 col-md-offset-2">
@@ -338,23 +365,13 @@
             <div class="row">
                 <div class="col-md-8 col-md-offset-2">
                     <div class="heading light">
-                        <h2>Subscribe Our Newsletter!</h2>
+                        <h2>JCIT Consulting!</h2>
                         <p>Lorem Ipsum is simply dummy text printing and type setting industry Lorem Ipsum been industry
                             standard dummy text ever since when unknown printer took a galley.</p>
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-6 col-sm-6 col-md-offset-3 col-sm-offset-3">
-                    <div class="newsletter-box text-center">
-                        <div class="input-group"> <span class="input-group-addon"><span
-                                    class="ti-email theme-cl"></span></span>
-                            <input type="text" class="form-control" placeholder="Enter your Email...">
-                        </div>
-                        <button type="button" class="btn theme-btn btn-radius btn-m">Subscribe</button>
-                    </div>
-                </div>
-            </div>
+           
         </div>
     </section>
 
@@ -441,6 +458,7 @@
 <script>
 import { onMounted, reactive } from 'vue'
 import useJob from './../../services/jobServices'
+import { ref } from 'vue'
 
 export default {
   components: {
@@ -449,18 +467,34 @@ export default {
   setup() {
     const {
         handleApplyJob,
+        success,
+        errors,
     } = useJob()
 
-  
+    const job = ref('');
     const jobData = reactive({
       name: '',
       email: '',
       phone: '',
       experience: '',
+      jobChosen: '',
       
     })
-    const applyJob = () =>{
-        console.log('ok')
+    const selectJob = (jobSelected) =>{
+        job.value = jobSelected 
+       }
+    const applyJob = async () =>{
+        jobData.jobChosen = job.value
+        await handleApplyJob({ ...jobData })
+        if (success.value) {
+            jobData.name = ''
+            jobData.email = ''
+            jobData.phone = ''
+            jobData.experience = ''
+            jobData.jobChosen = ''
+        }
+        
+
     }
     
     onMounted(async () => {
@@ -470,6 +504,10 @@ export default {
     return {
         jobData,
         applyJob,
+        selectJob,
+        job,
+        success,
+        errors,
     }
   },
  

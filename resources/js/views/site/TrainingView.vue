@@ -4,7 +4,7 @@
         <div class="container">
             <div class="page-caption">
                 <h2>Training</h2>
-                <p><a href="/" title="Home">Home</a> <i class="ti-angle-double-right"></i> Training</p>
+                <p><a href="/" title="Home">Home</a> <i class="fa fa-angle-double-right" aria-hidden="true"></i> Training</p>
             </div>
         </div>
     </div>
@@ -36,7 +36,9 @@
                                             src="website/assets/img/training-5.png" alt=""></div>
                                     <div class="category-detail utf_category_desc_text">
                                         <h4>Accounting & Consulting</h4>
-                                        <p>Enroll</p>
+                                        <p data-toggle="modal"
+                                            data-target="#apply-job"
+                                            class="" @click="selectJob('Python developer')">Enroll</p>
                                     </div>
                                 </div>
                             </div>
@@ -50,7 +52,9 @@
                                             src="website/assets/img/training-4.png" alt=""></div>
                                     <div class="category-detail utf_category_desc_text">
                                         <h4>Accounting & Consulting</h4>
-                                        <p>300 Jobs</p>
+                                        <p data-toggle="modal"
+                                            data-target="#apply-job"
+                                            class="" @click="selectJob('Backend web developer')">Enroll</p>
                                     </div>
                                 </div>
                             </div>
@@ -64,7 +68,9 @@
                                             src="website/assets/img/training-3.png" alt=""></div>
                                     <div class="category-detail utf_category_desc_text">
                                         <h4>Accounting & Consulting</h4>
-                                        <p>300 Jobs</p>
+                                        <p data-toggle="modal"
+                                            data-target="#apply-job"
+                                            class="" @click="selectJob('Frontend web developer')">Enroll</p>
                                     </div>
                                 </div>
                             </div>
@@ -78,7 +84,9 @@
                                             src="website/assets/img/training-2.png" alt=""></div>
                                     <div class="category-detail utf_category_desc_text">
                                         <h4>Accounting & Consulting</h4>
-                                        <p>300 Jobs</p>
+                                        <p data-toggle="modal"
+                                            data-target="#apply-job"
+                                            class="" @click="selectJob('Web designer')">Enroll</p>
                                     </div>
                                 </div>
                             </div>
@@ -92,7 +100,9 @@
                                             src="website/assets/img/training-1.png" alt=""></div>
                                     <div class="category-detail utf_category_desc_text">
                                         <h4>Accounting & Consulting</h4>
-                                        <p>300 Jobs</p>
+                                        <p data-toggle="modal"
+                                            data-target="#apply-job"
+                                            class="" @click="selectJob('Web developer')">Enroll</p>
                                     </div>
                                 </div>
                             </div>
@@ -107,54 +117,136 @@
     </section>
 
 
-    <section>
 
-        <!-- Apply Job Popup -->
-        <div class="modal fade" id="apply-job" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2"
-            aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content" id="myModalLabel2">
-                    <div class="modal-body">
-                        <div class="text-center mrg-bot-20">
-                            <h4 class="mrg-0">Front End Designer</h4>
-                            <span>2708 Scenic Way, Sutter</span>
-                        </div>
-                        <form>
-                            <div class="col-md-6 col-sm-6">
-                                <label>Name</label>
-                                <input type="text" class="form-control" placeholder="Name">
-                            </div>
-                            <div class="col-md-6 col-sm-6">
-                                <label>Email</label>
-                                <input type="email" class="form-control" placeholder="Email">
-                            </div>
-                            <div class="col-md-6 col-sm-6">
-                                <label>Phone</label>
-                                <input type="text" class="form-control" placeholder="Phone">
-                            </div>
-                            <div class="col-md-6 col-sm-6">
-                                <label>Upload CV</label>
-                                <div class="custom-file-upload">
-                                    <input type="file" id="file" name="myfiles[]" multiple />
-                                </div>
-                            </div>
-                            <div class="clearfix"></div>
-                            <div class="col-md-12">
-                                <label>Pase CV</label>
-                                <textarea class="form-control height-120" placeholder="Pase CV"></textarea>
-                            </div>
-                            <div class="col-md-12 text-center">
-                                <button type="button" class="btn theme-btn btn-m full-width">Save</button>
-                            </div>
-                            <div class="clearfix"></div>
-                        </form>
-                    </div>
+       
+<!-- Apply Job Popup -->
+<div class="modal fade" id="apply-job" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content" id="myModalLabel2">
+            <div class="modal-body">
+                <div class="text-center mrg-bot-20">
+                    <h4 class="mrg-0 alert alert-success" v-if="success">  {{ success }} </h4>
+                    <h4 class="mrg-0">  {{ job }} </h4>
+                    <span>2708 Scenic Way, Sutter</span>
                 </div>
+                <form @submit.prevent="applyJob">
+                    <div class="col-md-12 col-sm-12">
+                        <label>Name</label>
+                        <input type="text" class="form-control" placeholder="Name" v-model="jobData.name">
+                        <span
+                        v-if="errors.name"
+                        class="text-danger"
+                        v-text="errors.name[0]"
+                        >
+                        </span>
+                    </div>
+                    <div class="col-md-6 col-sm-6">
+                        <label>Email</label>
+                        <input type="email" class="form-control" placeholder="Email" v-model="jobData.email">
+                        <span
+                        v-if="errors.email"
+                        class="text-danger"
+                        v-text="errors.email[0]"
+                        >
+                        </span>
+                    </div>
+                    <div class="col-md-6 col-sm-6">
+                        <label>Phone</label>
+                        <input type="tel" class="form-control" placeholder="Phone" v-model="jobData.phone">
+                        <span
+                        v-if="errors.phone"
+                        class="text-danger"
+                        v-text="errors.phone[0]"
+                        >
+                        </span>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="col-md-12">
+                        <label>Experience </label>
+                        <textarea class="form-control height-120" placeholder="Experience" v-model="jobData.experience"> </textarea>
+                        <span
+                        v-if="errors.experience"
+                        class="text-danger"
+                        v-text="errors.experience[0]"
+                        >
+                        </span>
+                    </div>
+                    <div class="col-md-12 text-right">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+                        <button type="submit" class="btn theme-btn btn-sm btn-radius" style="margin-left: 10px;">Save</button>
+                    </div>
+                    <div class="clearfix"></div>
+                </form>
             </div>
         </div>
-        <!-- Apply Job Popup -->
+    </div>
+</div>
+<!-- Apply Job Popup -->
 
-    </section>
+
 
    
 </template>
+
+
+<script>
+import { onMounted, reactive } from 'vue'
+import useJob from './../../services/jobServices'
+import { ref } from 'vue'
+
+export default {
+  components: {
+  },
+  
+  setup() {
+    const {
+        handleApplyJob,
+        success,
+        errors,
+    } = useJob()
+
+    const job = ref('');
+    const jobData = reactive({
+      name: '',
+      email: '',
+      phone: '',
+      experience: '',
+      jobChosen: '',
+      
+    })
+    const selectJob = (jobSelected) =>{
+        job.value = jobSelected 
+       }
+    const applyJob = async () =>{
+        jobData.jobChosen = job.value
+        await handleApplyJob({ ...jobData })
+        if (success.value) {
+            jobData.name = ''
+            jobData.email = ''
+            jobData.phone = ''
+            jobData.experience = ''
+            jobData.jobChosen = ''
+        }
+        
+
+    }
+    
+    onMounted(async () => {
+      
+    })
+
+    return {
+        jobData,
+        applyJob,
+        selectJob,
+        job,
+        success,
+        errors,
+    }
+  },
+ 
+}
+
+</script>

@@ -9,7 +9,7 @@
     <title>JCIT Consulting </title>
 
     <!-- Favicon Icon -->
-    <link rel="shortcut icon" href="{{asset('website/assets/img/logo1.png')}}" />
+    <link rel="shortcut icon" href="{{asset('website/assets/images/logo.png')}}" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- CSS -->
     <link rel="stylesheet" href="{{asset('website/assets/plugins/bootstrap/css/bootstrap.min.css')}}">
